@@ -10,13 +10,14 @@
     "postinstall": "npm dedupe || true"
   },
   "dependencies": {
+    "@ai-sdk/openai": "2.0.16",
+    "@ai-sdk/react": "2.0.17",
     "@merit-systems/echo-next-sdk": "0.0.24",
     "ai": "5.0.19",
-    "@ai-sdk/react": "2.0.17",
-    "@ai-sdk/openai": "2.0.16",
     "next": "15.5.3",
     "react": "19.1.0",
-    "react-dom": "19.1.0"
+    "react-dom": "19.1.0",
+    "zod": "^4.1.11"
   },
   "overrides": {
     "ai": "5.0.19",
