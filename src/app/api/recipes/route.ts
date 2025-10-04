@@ -3,16 +3,16 @@ import { openai } from '../../../echo'
 
 export const runtime = 'edge'
 
-export async function POST(req: Request){
+export async function POST(req: Request) {
   const { mood, occasion, style, base, ingredientsCSV } = await req.json()
 
   const system = `You are “AI Bartender,” a witty, safety-conscious mixologist. You create short, practical drink recipes. Follow JSON schema strictly. If base=mocktail or the user implies no alcohol/underage, produce only alcohol-free recipes. Keep each recipe under 120 words.`
 
   const user = `MOOD: ${mood}
-OCCASION: ${occasion||'-'}
-STYLE: ${style||'-'}
+OCCASION: ${occasion || '-'}
+STYLE: ${style || '-'}
 BASE: ${base}
-AVAILABLE_INGREDIENTS: ${ingredientsCSV||'-'}
+AVAILABLE_INGREDIENTS: ${ingredientsCSV || '-'}
 
 Return JSON with:
 {
@@ -37,13 +37,18 @@ Generate 3-5 recipes. Prefer available ingredients when possible.`
     model: openai('gpt-5'),
     prompt,
     temperature: 0.7,
-    maxTokens: 800
+    maxOutputTokens: 800,
   })
 
-  try{
+  try {
     const data = JSON.parse(text)
     return Response.json(data)
-  }catch{
-    return new Response(JSON.stringify({ error: 'Model did not return valid JSON', raw: text }), { status: 502 })
+  } catch {
+    return new Response(
+      JSON.stringify({ error: 'Model did not return valid JSON', raw: text }),
+      { status: 502 }
+    )
   }
 }
+
+
