@@ -68,13 +68,13 @@ export default function Page() {
           value={mood}
           onChange={(e) => setMood(e.target.value)}
           rows={3}
-          style={{ background: '#151515', border: '1px solid #2a2a2a', borderRadius: 12, padding: 12 }}
+          style={{ background: '#ffffff', border: '1px solid #e5e7eb', borderRadius: 12, padding: 12 }}
         />
         <div style={{ display: 'flex', gap: 8 }}>
           <select
             value={base}
             onChange={(e) => setBase(e.target.value as 'cocktail' | 'mocktail')}
-            style={{ background: '#151515', border: '1px solid #2a2a2a', borderRadius: 10, padding: 10 }}
+            style={{ background: '#ffffff', border: '1px solid #e5e7eb', borderRadius: 10, padding: 10 }}
           >
             <option value="mocktail">Mocktail (0%)</option>
             <option value="cocktail">Cocktail</option>
@@ -83,20 +83,20 @@ export default function Page() {
             value={style}
             onChange={(e) => setStyle(e.target.value)}
             placeholder="Style (tropical, cozy, classy)"
-            style={{ flex: 1, background: '#151515', border: '1px solid #2a2a2a', borderRadius: 10, padding: 10 }}
+            style={{ flex: 1, background: '#ffffff', border: '1px solid #e5e7eb', borderRadius: 10, padding: 10 }}
           />
         </div>
         <input
           value={occasion}
           onChange={(e) => setOccasion(e.target.value)}
           placeholder="Occasion (party, study, date night)"
-          style={{ background: '#151515', border: '1px solid #2a2a2a', borderRadius: 10, padding: 10 }}
+          style={{ background: '#ffffff', border: '1px solid #e5e7eb', borderRadius: 10, padding: 10 }}
         />
         <input
           value={ing}
           onChange={(e) => setIng(e.target.value)}
           placeholder="Available ingredients (comma,separated)"
-          style={{ background: '#151515', border: '1px solid #2a2a2a', borderRadius: 10, padding: 10 }}
+          style={{ background: '#ffffff', border: '1px solid #e5e7eb', borderRadius: 10, padding: 10 }}
         />
         <button
           onClick={generate}
@@ -110,7 +110,7 @@ export default function Page() {
 
       <section style={{ marginTop: 24, display: 'grid', gap: 16 }}>
         {recipes.map((r, i) => (
-          <div key={i} style={{ border: '1px solid #2a2a2a', borderRadius: 16, padding: 16, background: '#0e0e0e' }}>
+          <div key={i} style={{ border: '1px solid #e5e7eb', borderRadius: 16, padding: 16, background: '#ffffff' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
               <h3 style={{ fontSize: 18, fontWeight: 600 }}>
                 {r.name} {r.alcohol_free ? '🫧' : '🍸'}
