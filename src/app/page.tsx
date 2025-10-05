@@ -98,13 +98,19 @@ export default function Page() {
           placeholder="Available ingredients (comma,separated)"
           style={{ background: '#ffffff', border: '1px solid #e5e7eb', borderRadius: 10, padding: 10 }}
         />
-        <button
-          onClick={generate}
-          disabled={loading || !mood.trim()}
-          style={{ background: '#2563eb', padding: '10px 14px', borderRadius: 12, opacity: loading ? 0.6 : 1 }}
-        >
-          {loading ? 'Mixing…' : 'Generate Drinks'}
-        </button>
+<button
+  onClick={generate}
+  disabled={loading || !mood.trim()}
+  style={{
+    background: '#2563eb',       // keep your current blue
+    color: '#ffffff',            // <-- make the label white
+    padding: '10px 14px',
+    borderRadius: 12,
+    opacity: loading ? 0.6 : 1
+  }}
+>
+  {loading ? 'Mixing…' : 'Generate Drinks'}
+</button>
         {err && <div style={{ color: '#fca5a5' }}>{err}</div>}
       </div>
 
