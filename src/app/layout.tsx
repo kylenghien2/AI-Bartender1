@@ -29,7 +29,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             background: #000;             /* solid black fallback */
             min-height: 100vh;
             position: relative;
-            overflow: hidden;
+            overflow-x: hidden; overflow-y: auto;
           }
 
           /* Photo on the left (full-bleed) */

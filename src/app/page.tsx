@@ -75,13 +75,13 @@ export default function Page() {
           value={mood}
           onChange={onMood}
           rows={3}
-          style={{ background:'#ffffff', border:'1px solid #e5e7eb', borderRadius:12, padding:12 }}
+          style={{ background:'#ffffff', color:'#0b1220', color:'#0b1220', border:'1px solid #e5e7eb', borderRadius:12, padding:12 }}
         />
         <div style={{ display:'flex', gap:8 }}>
           <select
             value={base}
             onChange={onBase}
-            style={{ background:'#ffffff', border:'1px solid #e5e7eb', borderRadius:10, padding:10 }}
+            style={{ background:'#ffffff', color:'#0b1220', color:'#0b1220', border:'1px solid #e5e7eb', borderRadius:10, padding:10 }}
           >
             <option value="mocktail">Mocktail (0%)</option>
             <option value="cocktail">Cocktail</option>
@@ -90,20 +90,20 @@ export default function Page() {
             value={style}
             onChange={onStyle}
             placeholder="Style (tropical, cozy, classy)"
-            style={{ flex:1, background:'#ffffff', border:'1px solid #e5e7eb', borderRadius:10, padding:10 }}
+            style={{ flex:1, background:'#ffffff', color:'#0b1220', color:'#0b1220', border:'1px solid #e5e7eb', borderRadius:10, padding:10 }}
           />
         </div>
         <input
           value={occasion}
           onChange={onOccasion}
           placeholder="Occasion (party, study, date night)"
-          style={{ background:'#ffffff', border:'1px solid #e5e7eb', borderRadius:10, padding:10 }}
+          style={{ background:'#ffffff', color:'#0b1220', color:'#0b1220', border:'1px solid #e5e7eb', borderRadius:10, padding:10 }}
         />
         <input
           value={ing}
           onChange={onIng}
           placeholder="Available ingredients (comma,separated)"
-          style={{ background:'#ffffff', border:'1px solid #e5e7eb', borderRadius:10, padding:10 }}
+          style={{ background:'#ffffff', color:'#0b1220', color:'#0b1220', border:'1px solid #e5e7eb', borderRadius:10, padding:10 }}
         />
         <button
           onClick={generate}
@@ -134,7 +134,7 @@ export default function Page() {
               border:'1px solid #e5e7eb',
               borderRadius:16,
               padding:16,
-              background:'#ffffff',
+              background:'#ffffff', color:'#0b1220', color:'#0b1220',
               boxShadow:'0 8px 20px rgba(2,6,23,0.05)'
             }}
           >
