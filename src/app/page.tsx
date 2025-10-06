@@ -1,6 +1,19 @@
 'use client'
-import { useState } from 'react'
+import { useState, type ChangeEvent } from 'react'
 import { EchoSignIn } from '@merit-systems/echo-next-sdk/client'
+
+// Types for recipe data returned by /api/recipes
+type Ingredient = { item: string; amount: string }
+type Recipe = {
+  name: string
+  alcohol_free: boolean
+  glass: string
+  ingredients: Ingredient[]
+  steps: string[]
+  garnish: string
+  vibe_note: string
+  estimated_time_min: number
+}
 
 export default function Page() {
   const [mood, setMood] = useState('lazy Sunday, craving something fresh')
@@ -8,7 +21,7 @@ export default function Page() {
   const [style, setStyle] = useState('tropical')
   const [occasion, setOccasion] = useState('chill with friends')
   const [ing, setIng] = useState('lime, mint, soda, ginger, honey')
-  const [recipes, setRecipes] = useState<any[]>([])
+  const [recipes, setRecipes] = useState<Recipe[]>([])
   const [loading, setLoading] = useState(false)
   const [err, setErr] = useState<string>('')
 
@@ -23,17 +36,28 @@ export default function Page() {
         body: JSON.stringify({ mood, base, style, occasion, ingredientsCSV: ing }),
       })
       if (!res.ok) {
-        const t = await res.text().catch(()=>'')
+        const t = await res.text().catch(() => '')
         throw new Error(t || 'Failed to generate')
       }
-      const data = await res.json()
-      setRecipes(Array.isArray(data.recipes) ? data.recipes : [])
-    } catch (e: any) {
-      setErr(e?.message || 'Something went wrong')
+      const data: unknown = await res.json()
+      // minimal runtime check
+      const out = (data as { recipes?: Recipe[] }).recipes
+      setRecipes(Array.isArray(out) ? out : [])
+    } catch (e: unknown) {
+      const message = e instanceof Error ? e.message : 'Something went wrong'
+      setErr(message)
     } finally {
       setLoading(false)
     }
   }
+
+  // typed handlers (optional clarity)
+  const onMood = (e: ChangeEvent<HTMLTextAreaElement>) => setMood(e.target.value)
+  const onStyle = (e: ChangeEvent<HTMLInputElement>) => setStyle(e.target.value)
+  const onOccasion = (e: ChangeEvent<HTMLInputElement>) => setOccasion(e.target.value)
+  const onIng = (e: ChangeEvent<HTMLInputElement>) => setIng(e.target.value)
+  const onBase = (e: ChangeEvent<HTMLSelectElement>) =>
+    setBase((e.target.value as 'cocktail' | 'mocktail') ?? 'mocktail')
 
   return (
     <div>
@@ -49,14 +73,14 @@ export default function Page() {
       <div style={{ display:'grid', gap:12 }}>
         <textarea
           value={mood}
-          onChange={(e)=>setMood(e.target.value)}
+          onChange={onMood}
           rows={3}
           style={{ background:'#ffffff', border:'1px solid #e5e7eb', borderRadius:12, padding:12 }}
         />
         <div style={{ display:'flex', gap:8 }}>
           <select
             value={base}
-            onChange={(e)=>setBase(e.target.value as 'cocktail'|'mocktail')}
+            onChange={onBase}
             style={{ background:'#ffffff', border:'1px solid #e5e7eb', borderRadius:10, padding:10 }}
           >
             <option value="mocktail">Mocktail (0%)</option>
@@ -64,20 +88,20 @@ export default function Page() {
           </select>
           <input
             value={style}
-            onChange={(e)=>setStyle(e.target.value)}
+            onChange={onStyle}
             placeholder="Style (tropical, cozy, classy)"
             style={{ flex:1, background:'#ffffff', border:'1px solid #e5e7eb', borderRadius:10, padding:10 }}
           />
         </div>
         <input
           value={occasion}
-          onChange={(e)=>setOccasion(e.target.value)}
+          onChange={onOccasion}
           placeholder="Occasion (party, study, date night)"
           style={{ background:'#ffffff', border:'1px solid #e5e7eb', borderRadius:10, padding:10 }}
         />
         <input
           value={ing}
-          onChange={(e)=>setIng(e.target.value)}
+          onChange={onIng}
           placeholder="Available ingredients (comma,separated)"
           style={{ background:'#ffffff', border:'1px solid #e5e7eb', borderRadius:10, padding:10 }}
         />
@@ -86,12 +110,13 @@ export default function Page() {
           disabled={loading || !mood.trim()}
           style={{
             background:'#2563eb',
-            color:'#ffffff',           // white text as you wanted
+            color:'#ffffff',           // white text
             padding:'10px 14px',
             borderRadius:12,
             fontWeight:600,
             opacity: loading ? .7 : 1,
-            border:'1px solid rgba(255,255,255,0.12)'
+            border:'1px solid rgba(255,255,255,0.12)',
+            cursor: loading ? 'default' : 'pointer'
           }}
         >
           {loading ? 'Mixing…' : 'Generate Drinks'}
@@ -101,7 +126,7 @@ export default function Page() {
 
       {/* RESULTS */}
       <section style={{ marginTop:24, display:'grid', gap:16 }}>
-        {recipes.map((r, i) => (
+        {recipes.map((r: Recipe, i: number) => (
           <div
             key={i}
             className="card"
@@ -121,14 +146,14 @@ export default function Page() {
             </div>
             <p style={{ opacity:.8 }}>{r.vibe_note}</p>
             <ul style={{ marginTop:8, paddingLeft:18 }}>
-              {r.ingredients?.map((x:any, idx:number)=>(
+              {r.ingredients?.map((x: Ingredient, idx: number)=>(
                 <li key={idx}>
                   {x.amount} {x.item}
                 </li>
               ))}
             </ul>
             <ol style={{ marginTop:8, paddingLeft:18 }}>
-              {r.steps?.map((s:string, idx:number)=>(
+              {r.steps?.map((s: string, idx: number)=>(
                 <li key={idx}>{s}</li>
               ))}
             </ol>
